@@ -19,12 +19,5 @@
       "router": {
         "origin": false
       },
-      "eas": {
-        "projectId": "6ade7b44-510c-44e2-88b1-a23db324f777"
-      }
-    },
-    "android": {
-      "package": "com.discussion.forum"
-    }
-  }
+
 }
