@@ -76,34 +76,36 @@ const UserProfile = () => {
         </View>
       ) : (
         <>
-          <View className="mt-10">
-            <Pressable onPress={() => router.back()}>
-              <Ionicons name="md-backspace" size={24} color="black" />
-            </Pressable>
-          </View>
-          <View className=" flex flex-row justify-center mt-10 mb-6">
-            <Image
-              source={{ uri: `${userData?.profileImage}` }}
-              style={{
-                width: 50,
-                height: 50,
-                borderRadius: 50,
-                marginVertical: 10,
-                marginHorizontal: 20,
-              }}
-            />
-
-            <View className=" flex flex-col justify-center">
-              <Text className="font-bold text-lg">{userData?.name}</Text>
-              <Text>@{userData?.username}</Text>
-              <Text>{userData?.email}</Text>
+          <ScrollView>
+            <View className="mt-10">
+              <Pressable onPress={() => router.back()}>
+                <Ionicons name="md-backspace" size={24} color="black" />
+              </Pressable>
             </View>
-          </View>
+            <View className=" flex flex-row justify-center mt-10 mb-6">
+              <Image
+                source={{ uri: `${userData?.profileImage}` }}
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 50,
+                  marginVertical: 10,
+                  marginHorizontal: 20,
+                }}
+              />
 
-          <ScrollView className="d-flex flex-column">
-            {orderedPosts?.map((post) => (
-              <Post Post={post} key={post._id} />
-            ))}
+              <View className=" flex flex-col justify-center">
+                <Text className="font-bold text-lg">{userData?.name}</Text>
+                <Text>@{userData?.username}</Text>
+                <Text>{userData?.email}</Text>
+              </View>
+            </View>
+
+            <ScrollView className="d-flex flex-column">
+              {orderedPosts?.map((post) => (
+                <Post Post={post} key={post._id} />
+              ))}
+            </ScrollView>
           </ScrollView>
         </>
       )}

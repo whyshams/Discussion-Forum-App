@@ -91,57 +91,62 @@ const Profile = () => {
         </View>
       ) : (
         <>
-          <View className="mt-10">
-            <Pressable onPress={() => router.back()}>
-              <Ionicons name="md-backspace" size={24} color="black" />
-            </Pressable>
-          </View>
-
-          <View className=" flex flex-row justify-center mt-10 mb-6">
-            <Image
-              source={{ uri: `${userData.profileImage}` }}
-              style={{
-                width: 50,
-                height: 50,
-                borderRadius: 50,
-                marginVertical: 10,
-                marginHorizontal: 20,
-              }}
-            />
-
-            <View className=" flex flex-col justify-center">
-              <Text className="font-bold text-lg">{userData.name}</Text>
-              <Text>@{userData.username}</Text>
-              <Text>{userData.email}</Text>
-              <Text className="font-bold">
-                Role : {userData.role.toUpperCase()}
-              </Text>
+          <ScrollView>
+            <View className="mt-10">
+              <Pressable onPress={() => router.back()}>
+                <Ionicons name="md-backspace" size={24} color="black" />
+              </Pressable>
             </View>
-          </View>
-          <View className="flex flex-row justify-around my-6">
-            <View className="bg-black p-3 rounded-xl">
-              <Link href="/Dashboard/UpdateProfile">
-                <Text className="text-white font-bold">Update</Text>
-              </Link>
-            </View>
-            <Pressable onPress={logoutUser} className="bg-black p-3 rounded-xl">
-              <Text className="text-white font-bold">Logout</Text>
-            </Pressable>
-            <Pressable
-              onPress={deactivate}
-              className="bg-red-500 p-3 rounded-xl"
-            >
-              <Text className="text-white font-bold">Deactivate</Text>
-            </Pressable>
-          </View>
 
-          {userPostData && (
-            <ScrollView className="d-flex flex-column">
-              {orderedPosts?.map((post) => (
-                <UserPost post={post} key={post._id} />
-              ))}
-            </ScrollView>
-          )}
+            <View className=" flex flex-row justify-center mt-10 mb-6">
+              <Image
+                source={{ uri: `${userData.profileImage}` }}
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 50,
+                  marginVertical: 10,
+                  marginHorizontal: 20,
+                }}
+              />
+
+              <View className=" flex flex-col justify-center">
+                <Text className="font-bold text-lg">{userData.name}</Text>
+                <Text>@{userData.username}</Text>
+                <Text>{userData.email}</Text>
+                <Text className="font-bold">
+                  Role : {userData.role.toUpperCase()}
+                </Text>
+              </View>
+            </View>
+            <View className="flex flex-row justify-around my-6">
+              <View className="bg-black p-3 rounded-xl">
+                <Link href="/Dashboard/UpdateProfile">
+                  <Text className="text-white font-bold">Update</Text>
+                </Link>
+              </View>
+              <Pressable
+                onPress={logoutUser}
+                className="bg-black p-3 rounded-xl"
+              >
+                <Text className="text-white font-bold">Logout</Text>
+              </Pressable>
+              <Pressable
+                onPress={deactivate}
+                className="bg-red-500 p-3 rounded-xl"
+              >
+                <Text className="text-white font-bold">Deactivate</Text>
+              </Pressable>
+            </View>
+
+            {userPostData && (
+              <ScrollView className="d-flex flex-column">
+                {orderedPosts?.map((post) => (
+                  <UserPost post={post} key={post._id} />
+                ))}
+              </ScrollView>
+            )}
+          </ScrollView>
         </>
       )}
     </View>

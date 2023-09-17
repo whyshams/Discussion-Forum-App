@@ -17,6 +17,7 @@ import * as yup from "yup";
 import { useRouter } from "expo-router";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
+import * as FileSystem from "expo-file-system";
 
 const postSchema = yup.object().shape({
   description: yup.string().required("required"),
@@ -36,11 +37,34 @@ const CreatePost = () => {
   const [userId, setUserId] = useState();
   const [image, setImage] = useState();
 
+  const convertImageToBase64 = async (uri) => {
+    try {
+      // Read the image file as a binary string
+      const fileData = await FileSystem.readAsStringAsync(uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      console.log(fileData);
+
+      return fileData;
+    } catch (error) {
+      console.error("Error converting image to base64:", error);
+      return null;
+    }
+  };
+
   const openImagePicker = async (setFieldValue) => {
     try {
       const res = await DocumentPicker.getDocumentAsync();
-
-      setImage(res.assets[0].uri);
+      convertImageToBase64(res.assets[0].uri)
+        .then((base64String) => {
+          if (base64String) {
+            let destructBase64 = "data:image/jpeg;base64," + base64String;
+            setImage(destructBase64);
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     } catch (err) {
       console.log(err);
     }
@@ -127,7 +151,16 @@ const CreatePost = () => {
                   className="m-3"
                   onPress={() => openImagePicker(setFieldValue)}
                 >
-                  <Text>{values.picture ? values.picture : "Add Picture"}</Text>
+                  <Text>
+                    {values.picture ? (
+                      <Image
+                        source={{ uri: values.picture }}
+                        style={{ width: 200, height: 200 }}
+                      />
+                    ) : (
+                      "Add Picture"
+                    )}
+                  </Text>
                   {image && (
                     <Image
                       source={{ uri: image }}

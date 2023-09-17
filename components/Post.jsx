@@ -1,5 +1,12 @@
 import { useState, useContext } from "react";
-import { View, Text, Image, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import moment from "moment";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
@@ -60,71 +67,93 @@ const Post = ({ Post }) => {
             <Text className=" text-blue-400 font-bold">{Post.name}</Text>
           </Link>
         </View>
-        <Pressable onPress={singlePostReq}>
-          <Text className="p-3">{Post.description}</Text>
-        </Pressable>
-        <Pressable onPress={singlePostReq}>
-          <View className="flex-1 justify-items-center">
-            {Post.image && (
-              <Image
-                source={{
-                  uri: `${Post.image}`,
-                }}
-                style={{
-                  width: 200,
-                  height: 200,
-                  borderRadius: 10,
-                }}
-              />
-            )}
-          </View>
-        </Pressable>
-
-        <Text className="py-3"> {moment(Post.createdAt).fromNow()}</Text>
-        <View className="flex flex-row justify-between mt-5">
-          <Pressable onPress={postLikeHandle}>
-            {isLiked || Post.likes[userData._id] === true ? (
-              <View className="flex flex-row">
-                <AntDesign name="like1" size={24} color="skyblue" />
-                <Text className="p-1 font-bold">{numberOfLikes}</Text>
-              </View>
-            ) : (
-              <View className="flex flex-row">
-                <AntDesign name="like2" size={24} color="black" />
-                <Text className="p-1 font-bold">{numberOfLikes}</Text>
-              </View>
-            )}
-          </Pressable>
-          <Pressable
-            className="flex flex-row"
-            onPress={() => setCommentOpen(!commentOpen)}
-          >
-            <FontAwesome name="comment-o" size={24} color="black" />
-            <Text className="font-bold m-1">{orderedComments.length}</Text>
-          </Pressable>
-        </View>
-        {commentOpen ? (
+        <View>
           <View>
-            <Comment post={Post} />
-            {orderedComments.map((data) => (
-              <View key={data._id} className="mt-4">
-                <View className="flex flex-row">
+            <Text className="p-3">{Post.description}</Text>
+            {/*<Pressable onPress={singlePostReq}>*/}
+            <Pressable
+              onPress={singlePostReq}
+              style={{
+                width: 200,
+                height: 200,
+                borderRadius: 10,
+                flex: 1,
+              }}
+            >
+              <View className="flex-1 justify-items-center">
+                {Post.image && (
                   <Image
-                    className="m-2"
-                    source={{ uri: data.userProfileImage }}
-                    style={{ width: 30, height: 30, borderRadius: 50 }}
+                    source={{
+                      uri: `${Post.image}`,
+                    }}
+                    style={{
+                      width: 200,
+                      height: 200,
+                      borderRadius: 10,
+                      flex: 1,
+                    }}
                   />
-
-                  <Text className="m-2 font-bold">{data.username}:</Text>
-                </View>
-
-                <Text className="m-2 flex justify-center items-center">
-                  "{data.text}"
-                </Text>
+                )}
               </View>
-            ))}
+            </Pressable>
           </View>
-        ) : null}
+        </View>
+
+        <View>
+          <Text className="py-3"> {moment(Post.createdAt).fromNow()}</Text>
+          <View className="flex flex-row justify-between mt-5">
+            <Pressable onPress={postLikeHandle}>
+              {isLiked || Post.likes[userData._id] === true ? (
+                <View className="flex flex-row">
+                  <AntDesign name="like1" size={24} color="skyblue" />
+                  <Text className="p-1 font-bold">{numberOfLikes}</Text>
+                </View>
+              ) : (
+                <View className="flex flex-row">
+                  <AntDesign name="like2" size={24} color="black" />
+                  <Text className="p-1 font-bold">{numberOfLikes}</Text>
+                </View>
+              )}
+            </Pressable>
+            <Pressable
+              className="flex flex-row"
+              onPress={() => setCommentOpen(!commentOpen)}
+            >
+              <FontAwesome name="comment-o" size={24} color="black" />
+              <Text className="font-bold m-1">{orderedComments.length}</Text>
+            </Pressable>
+          </View>
+        </View>
+
+        <View>
+          {commentOpen ? (
+            <View>
+              <Comment post={Post} />
+              {orderedComments.map((data) => (
+                <View key={data._id} className="mt-7">
+                  <View className="flex flex-row">
+                    <Image
+                      className="m-2"
+                      source={{ uri: data.userProfileImage }}
+                      style={{ width: 30, height: 30, borderRadius: 50 }}
+                    />
+                    <View style={{ marginTop: 10 }}>
+                      <Link href={`/Dashboard/${data.userId}`}>
+                        <Text className=" text-blue-400 font-bold ">
+                          {data.username}
+                        </Text>
+                      </Link>
+                    </View>
+                  </View>
+
+                  <Text className="m-2 flex flex-row justify-center items-center">
+                    "{data.text}"
+                  </Text>
+                </View>
+              ))}
+            </View>
+          ) : null}
+        </View>
       </View>
     </View>
   );

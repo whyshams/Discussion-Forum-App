@@ -100,8 +100,9 @@ const SinglePost = () => {
                       uri: `${Post.image}`,
                     }}
                     style={{
-                      width: screenWidth,
+                      maxWidth: screenWidth,
                       height: imageHeight,
+                      resizeMode: "center",
                     }}
                   />
                 </View>
